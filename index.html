@@ -246,24 +246,41 @@
                 </div>
                 <div class="col-xl-6 mb-5">
                   <div class="tm-contact-form-wrap">
-                    <form action="" method="POST" class="tm-contact-form">
-                        <div class="form-group">
-                          <input type="text" id="contact_name" name="contact_name" class="form-control rounded-0 border-top-0 border-right-0 border-left-0" placeholder="Seu Nome" required="" />
-                        </div>
-                        <div class="form-group">
-                          <input type="email" id="contact_email" name="contact_email" class="form-control rounded-0 border-top-0 border-right-0 border-left-0" placeholder="Seu Email" required="" />
-                        </div>
-                
-                        <div class="form-group">
-                          <textarea rows="4" id="contact_message" name="contact_message" class="form-control rounded-0 border-top-0 border-right-0 border-left-0" placeholder="Messagem" required=""></textarea>
-                        </div>
-                
-                        <div class="form-group mb-0">
-                          <button type="submit" class="btn rounded-0 d-block ml-auto tm-btn-primary">
-                            Enviar
-                          </button>
-                        </div>
-                      </form>
+                    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="tm-contact-form">
+                      
+                      <!-- Campo oculto necessário -->
+                      <input type="hidden" name="form-name" value="contact" />
+                      
+                      <!-- Campo honeypot para evitar spam -->
+                      <p style="display:none">
+                        <label>Não preencher este campo: <input name="bot-field" /></label>
+                      </p>
+
+                      <div class="form-group">
+                        <input type="text" id="contact_name" name="contact_name" 
+                              class="form-control rounded-0 border-top-0 border-right-0 border-left-0" 
+                              placeholder="Seu Nome" required />
+                      </div>
+
+                      <div class="form-group">
+                        <input type="email" id="contact_email" name="contact_email" 
+                              class="form-control rounded-0 border-top-0 border-right-0 border-left-0" 
+                              placeholder="Seu Email" required />
+                      </div>
+
+                      <div class="form-group">
+                        <textarea rows="4" id="contact_message" name="contact_message" 
+                                  class="form-control rounded-0 border-top-0 border-right-0 border-left-0" 
+                                  placeholder="Mensagem" required></textarea>
+                      </div>
+
+                      <div class="form-group mb-0">
+                        <button type="submit" class="btn rounded-0 d-block ml-auto tm-btn-primary">
+                          Enviar
+                        </button>
+                      </div>
+                    </form>
+
                   </div>                    
                 </div>
               </section>
