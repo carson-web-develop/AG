@@ -83,3 +83,38 @@ $(document).ready(function() {
     $(".tm-sidebar").removeClass("show");
   });
 });
+
+
+const abrirForm = document.getElementById('abrirForm');
+const modalForm = document.getElementById('modalForm');
+const fecharForm = document.getElementById('fecharForm');
+const formParticipar = document.getElementById('formParticipar');
+
+// Abrir modal
+abrirForm.addEventListener('click', () => {
+  modalForm.style.display = 'flex';
+});
+
+// Fechar modal
+fecharForm.addEventListener('click', () => {
+  modalForm.style.display = 'none';
+});
+
+// Submeter formulário
+formParticipar.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nome = document.getElementById('nome').value;
+  const telefone = document.getElementById('telefone').value;
+
+  if(nome && telefone){
+    // Redirecionar para a página da roleta
+    window.location.href = './Roleta_AJ/roleta.html';
+  } else {
+    alert('Preencha todos os campos!');
+  }
+});
+
+// Fechar modal clicando fora do conteúdo
+modalForm.addEventListener('click', (e) => {
+  if(e.target === modalForm) modalForm.style.display = 'none';
+});

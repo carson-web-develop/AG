@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roleta de Prêmios AJ Dream Beauty</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-image: url(home_image.jpg);
+      height: 100vh;
+      width: 100%;
+      color: #1a0033;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #33004d;
+      font-size: clamp(20px, 4vw, 32px);
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .seta {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-bottom: 28px solid #33004d;
+      z-index: 10;
+    }
+
+    .roleta {
+      width: min(70vw, 320px);
+      height: min(70vw, 320px);
+      border-radius: 50%;
+      border: 6px solid #b300b3;
+      position: relative;
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+      overflow: hidden;
+      background: conic-gradient(
+        #f4a3e5 0deg 60deg,     /* Make up */
+        #f8b6f3 60deg 120deg,   /* 50% desconto */
+        #d580ff 120deg 180deg,  /* Tranças */
+        #ff9999 180deg 240deg,  /* Unhas */
+        #99ccff 240deg 300deg,  /* Sombras */
+        #b34cff 300deg 360deg   /* Perdeu */
+      );
+    }
+
+    .centro {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30%;
+      height: 30%;
+      border-radius: 50%;
+      background: #800080;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(14px, 4vw, 22px);
+      font-weight: bold;
+      color: #fff;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    button {
+      margin-top: 25px;
+      background: #800080;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: clamp(14px, 3.5vw, 18px);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #b300b3;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: clamp(14px, 3.5vw, 18px);
+      color: #33004d;
+      max-width: 90%;
+    }
+
+    .voltar {
+      margin-top: 15px;
+      color: #800080;
+      text-decoration: none;
+      font-size: clamp(12px, 3vw, 14px);
+    }
+
+    .voltar:hover {
+      text-decoration: underline;
+    }
+
+    /* Legenda */
+    .legenda {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .item-legenda {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+      font-size: clamp(12px, 3.5vw, 14px);
+      color: #1a0033;
+      justify-content: center;
+    }
+
+    .cor {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 2px solid #1a0033;
+      flex-shrink: 0;
+    }
+
+    .cor1 { background: #f4a3e5; }
+    .cor2 { background: #f8b6f3; }
+    .cor3 { background: #d580ff; }
+    .cor4 { background: #ff9999; }
+    .cor5 { background: #99ccff; }
+    .cor6 { background: #b34cff; }
+  </style>
+</head>
+<body>
+  <h1>Roleta de Prêmios</h1>
+  <div class="container">
+    <div class="seta"></div>
+    <div class="roleta" id="roleta">
+      <div class="centro">AJ</div>
+    </div>
+  </div>
+
+  <button id="girar">Girar</button>
+
+  <div class="resultado" id="resultado"></div>
+  <a href="../index.html" class="voltar">Voltar ao website</a>
+
+  <!-- Legenda fora da roleta -->
+  <div class="legenda">
+    <div class="item-legenda"><div class="cor cor1"></div> Make up Grátis</div>
+    <div class="item-legenda"><div class="cor cor2"></div> 50% de Desconto</div>
+    <div class="item-legenda"><div class="cor cor3"></div> Tranças Grátis</div>
+    <div class="item-legenda"><div class="cor cor4"></div> Unhas Grátis</div>
+    <div class="item-legenda"><div class="cor cor5"></div> Alinhar Sombras</div>
+    <div class="item-legenda"><div class="cor cor6"></div> Perdeu 😢</div>
+  </div>
+
+  <script>
+    const roleta = document.getElementById("roleta");
+    const botao = document.getElementById("girar");
+    const resultado = document.getElementById("resultado");
+
+    const premios = [
+      "Make up Grátis",
+      "50% de Desconto",
+      "Tranças Grátis",
+      "Unhas Grátis",
+      "Alinhar Sombras",
+      "Perdeu 😢"
+    ];
+
+    // Probabilidade maior para Sombras e Perdeu
+    const pesos = [1, 1, 1, 1, 5, 6];
+
+    const hoje = new Date().toDateString();
+    const ultimoGiro = localStorage.getItem("ultimoGiro");
+
+    if (ultimoGiro === hoje) {
+      botao.disabled = true;
+      resultado.textContent = "⏳ Você já girou a roleta hoje. Tente novamente amanhã!";
+    }
+
+    let girando = false;
+
+    botao.addEventListener("click", () => {
+      if (girando) return;
+      girando = true;
+      resultado.textContent = "";
+
+      const grausPorSetor = 360 / premios.length;
+      const giroExtra = 360 * 5;
+
+      // Sorteio com pesos
+      const totalPeso = pesos.reduce((a, b) => a + b, 0);
+      let rand = Math.random() * totalPeso;
+      let indice = 0;
+      for (let i = 0; i < pesos.length; i++) {
+        rand -= pesos[i];
+        if (rand <= 0) {
+          indice = i;
+          break;
+        }
+      }
+
+      const min = indice * grausPorSetor;
+      const max = (indice + 1) * grausPorSetor;
+      const anguloAleatorioNoSetor = min + Math.random() * (max - min);
+
+      const rotacaoFinal = giroExtra + (360 - anguloAleatorioNoSetor);
+      roleta.style.transform = `rotate(${rotacaoFinal}deg)`;
+
+      setTimeout(() => {
+        const premio = premios[indice];
+        if(premio === "Perdeu 😢") {
+          resultado.textContent = `😢 Que pena! Você perdeu.`;
+        } else {
+          resultado.textContent = `🎉 Parabéns! Você ganhou: ${premio}`;
+        }
+        girando = false;
+        botao.disabled = true;
+        localStorage.setItem("ultimoGiro", hoje);
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
